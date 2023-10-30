@@ -6,10 +6,10 @@ import Form from './components/Form.vue';
 import Weather from './components/Weather.vue'
 import Spinner from './components/Spinner.vue'
 import Alert from './components/Alert.vue';
+
 const { getWeather, weather, displayWeather, load, error } = useWeather()
 
 const { countries, cities, getCountry } = useCountriesCities()
-
 
 </script>
 
