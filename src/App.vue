@@ -1,14 +1,34 @@
 <script setup lang="ts">
-import Form from './components/Form.vue';
 import useWeather from './composables/useWeather'
+import { WeatherI } from './services/interfaces/form.interfaces';
+import useCountriesCities from './composables/useCountriesCities.ts'
+import Form from './components/Form.vue';
+import Weather from './components/Weather.vue'
+import Spinner from './components/Spinner.vue'
+import Alert from './components/Alert.vue';
+const { getWeather, weather, displayWeather, load, error } = useWeather()
 
-const { getWeather } = useWeather()
+const { countries, cities, getCountry } = useCountriesCities()
+
+
 </script>
 
 <template>
-  <h1 class="title">Weather search</h1>
+  <h1 class="title">Check Weather</h1>
   <div class="container search-weather">
-    <Form @get-weather="getWeather" />
+  <!-- {{ countries }} -->
+    <Form 
+      @get-codeCountry="getCountry"
+      @get-weather="getWeather" 
+      :countries="countries"
+      :cities="cities"
+    />
+    <Spinner v-if="load"/>
+    <Alert v-if="error">{{ error }}</Alert>
+    <Weather 
+      v-if="displayWeather"
+      :weather="(weather as WeatherI)"
+    />
   </div>
 </template>
 
