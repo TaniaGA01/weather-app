@@ -13,7 +13,7 @@ const error = ref<ErrorI>({
     message:''
 })
 
-const props = defineProps<{
+defineProps<{
     countries: any,
     cities:any
 }>()
@@ -21,8 +21,13 @@ const props = defineProps<{
 const emit = defineEmits(['get-weather', 'get-codeCountry'])
 
 const emitCodeCountry = (iso2: string) => {
-    search.countryCode = iso2
-    emit('get-codeCountry', iso2)
+    if(iso2){
+        search.countryCode = iso2
+        emit('get-codeCountry', iso2)
+    }else{
+        return
+    }
+
 }
 
 const checkWeather = () => {
@@ -47,23 +52,27 @@ const checkWeather = () => {
                     @input="emitCodeCountry(($event.target as HTMLInputElement).value)"
                 >
                     <option value="">-- Choose a country --</option>
-                    <option v-for="country in props.countries" :key="country.iso2" :value="country.iso2" > 
+                    <option v-for="country in countries" :key="country.iso2" :value="country.iso2" > 
                         {{ country.name }}
                     </option>
                 </select>
             </div>
-            <div class="field" v-show="search.countryCode !== '' ">
+            <div class="field" v-if="cities.length > 0">
                 <label for="city">City</label>
                 <select 
                     id="city"
                     v-model="search.city"
                 >
                     <option value="">-- Choose a city --</option>
-                    <option v-for="city in props.cities" :key="city.id"> 
+                    <option v-for="city in cities" :key="city.id"> 
                         {{ city.name }}
                     </option>
                 </select>
             </div>
+            <p v-else-if="search.country !== '' && cities.length === 0">
+                Sorry, cities are disabled
+            </p>
+
             <input type="submit" value="Check weather">
         </form>
     </div>

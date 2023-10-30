@@ -24,7 +24,7 @@ const { countries, cities, getCountry } = useCountriesCities()
       :cities="cities"
     />
     <Spinner v-if="load"/>
-    <Alert v-if="error">{{ error }}</Alert>
+    <Alert v-if="error && cities.length > 0">{{ error }}</Alert>
     <Weather 
       v-if="displayWeather"
       :weather="(weather as WeatherI)"

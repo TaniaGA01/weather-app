@@ -29,20 +29,15 @@ export default function useWeather(){
             const { data } = await axios(url)
             
             // if(data.sys.country === countryCode){
-                const { lat, lon } = data[0]
+            const { lat, lon } = data[0]
 
-                // Get weather ... documentation: https://openweathermap.org/current
-                const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`
-                const {data:result} = await axios(urlWeather)
-                weather.value = result
-
-                console.log('clima', weather.value)
-
-            // }
-
+            // Get weather ... documentation: https://openweathermap.org/current
+            const urlWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`
+            const {data:result} = await axios(urlWeather)
+            weather.value = result
             
         } catch {
-            error.value = "City doesn't exist"
+            error.value = "Unavailable information"
         }finally{
             load.value = false
         }

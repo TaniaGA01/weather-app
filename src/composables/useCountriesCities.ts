@@ -28,6 +28,7 @@ export default function useCountriesCities(){
         getGeoData()
 
 
+
         let cities = ref([])
         // const countryCode = ref('')
 
@@ -42,7 +43,10 @@ export default function useCountriesCities(){
             const getGeoData = () => {
                 axios(getCities)
                 .then(async function (response) {
-                    cities.value= await(response.data)
+                    cities.value = []
+                    if(await(response.data).length > 0){
+                        cities.value= await(response.data)
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);
